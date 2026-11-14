@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nirthic Madhan — Scratch Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --ink:#1B1B2F;
+    --red:#FF5A5F;
+    --yellow:#FFC93C;
+    --blue:#3D9BE9;
+    --green:#4ECB71;
+    --purple:#9B6BFF;
+    --card:#FFFFFF;
+    --b:3px solid var(--ink);
+    --pop:6px 6px 0 var(--ink);
+    --pop-sm:4px 4px 0 var(--ink);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px 70px;}
+
+  h1,h2,h3{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.1;margin:0;}
+  .pixel{font-family:'Press Start 2P',monospace;letter-spacing:.5px;}
+
+  /* ---------- top bar ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:var(--cream);
+    border-bottom:var(--b);
+  }
+  .nav-in{
+    max-width:980px;margin:0 auto;padding:12px 20px;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .logo{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px;
+    display:flex;align-items:center;gap:9px;margin-right:auto;
+  }
+  .logo .dot{
+    width:26px;height:26px;border:var(--b);border-radius:8px;background:var(--yellow);
+    display:grid;place-items:center;font-size:13px;font-weight:800;
+  }
+  nav a.link{
+    color:var(--ink);text-decoration:none;font-weight:700;font-size:15px;
+    padding:5px 11px;border-radius:999px;border:2px solid transparent;
+  }
+  nav a.link:hover{border-color:var(--ink);background:#fff;}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:46px 0 10px;}
+  .hero-grid{
+    display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center;
+  }
+  .tag{
+    display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;
+    background:var(--yellow);border:var(--b);border-radius:999px;
+    padding:9px 14px;box-shadow:var(--pop-sm);margin-bottom:18px;
+  }
+  h1{font-size:clamp(40px,8vw,70px);font-weight:800;letter-spacing:-1px;}
+  h1 .u{
+    background:linear-gradient(transparent 62%, var(--green) 62%, var(--green) 92%, transparent 92%);
+  }
+  .sub{font-size:19px;font-weight:600;margin:16px 0 8px;max-width:46ch;}
+  .chips{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0;
+    margin:40px 0 0;padding:15px 0;
+    border-top:2px solid rgba(27,27,47,.14);
+    border-bottom:2px solid rgba(27,27,47,.14);
+    font-size:15px;font-weight:700;text-align:center;
+    color:rgba(27,27,47,.6);
+  }
+  .chip{
+    background:none;border:0;border-radius:0;padding:0;box-shadow:none;
+    font-size:inherit;font-weight:inherit;color:inherit;
+  }
+  .chip + .chip:before{content:"•";margin:0 10px;opacity:.4;}
+  .chip.r,.chip.b,.chip.g,.chip.p,.chip.y{background:none;}
+
+  .btns{display:flex;flex-wrap:wrap;gap:13px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:18px;
+    text-decoration:none;color:var(--ink);
+    background:var(--yellow);border:var(--b);border-radius:14px;
+    padding:12px 20px;box-shadow:var(--pop);
+    transition:transform .08s ease, box-shadow .08s ease;
+  }
+  .btn.alt{background:var(--blue);color:#fff;}
+  .btn.ghost{background:#fff;}
+  .btn.pop{background:var(--green);}
+  .btn .hot{
+    font-family:'Press Start 2P',monospace;font-size:7px;
+    background:var(--ink);color:var(--yellow);
+    border-radius:999px;padding:5px 7px;margin-left:2px;
+  }
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+  .btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink);}
+
+  /* ---------- avatar ---------- */
+  .avatar-box{display:flex;flex-direction:column;align-items:center;gap:12px;}
+  #avatar{
+    position:relative;width:100%;max-width:250px;cursor:pointer;
+    border:var(--b);border-radius:26px;background:var(--yellow);
+    box-shadow:var(--pop);transform:rotate(-2deg);
+    transition:transform .18s ease, box-shadow .18s ease;
+    margin-bottom:10px;
+  }
+  #avatar img{display:block;width:100%;height:auto;border-radius:23px;}
+  #avatar:hover{transform:rotate(1.5deg) scale(1.03);box-shadow:9px 9px 0 var(--ink);}
+  #avatar:focus-visible{outline:4px dashed var(--blue);outline-offset:5px;}
+  .sticker{
+    position:absolute;bottom:-15px;right:-13px;
+    font-family:'Press Start 2P',monospace;font-size:9px;
+    background:var(--green);border:var(--b);border-radius:999px;padding:8px 11px;
+    box-shadow:var(--pop-sm);transform:rotate(5deg);white-space:nowrap;
+  }
+  .bounce{animation:bounce .5s ease;}
+  @keyframes bounce{
+    0%{transform:translateY(0) rotate(-2deg)}
+    30%{transform:translateY(-16px) rotate(-8deg)}
+    60%{transform:translateY(0) rotate(3deg)}
+    100%{transform:translateY(0) rotate(-2deg)}
+  }
+  .bubble{
+    background:#fff;border:var(--b);border-radius:16px;box-shadow:var(--pop-sm);
+    padding:11px 15px;font-weight:700;font-size:15px;text-align:center;
+    max-width:260px;position:relative;
+  }
+  .bubble:after{
+    content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;
+    border-bottom:11px solid var(--ink);
+  }
+  .bubble small{display:block;font-weight:700;font-size:11px;opacity:.55;margin-top:5px;}
+
+  /* ---------- sections ---------- */
+  section{margin-top:64px;}
+  .sec-head{display:flex;align-items:center;gap:13px;margin-bottom:22px;flex-wrap:wrap;}
+  .sec-head .num{
+    width:38px;height:38px;flex:none;border:var(--b);border-radius:11px;
+    display:grid;place-items:center;font-family:'Press Start 2P',monospace;font-size:11px;
+    box-shadow:var(--pop-sm);background:var(--red);color:#fff;
+  }
+  .sec-head h2{font-size:clamp(28px,5vw,38px);font-weight:800;}
+
+  .card{
+    background:var(--card);border:var(--b);border-radius:20px;
+    box-shadow:var(--pop);padding:24px;
+  }
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+  /* about */
+  .story p{margin:0 0 14px;}
+  .story p:last-child{margin-bottom:0;}
+  .story strong{background:var(--yellow);padding:1px 5px;border-radius:5px;}
+  .facts{list-style:none;padding:0;margin:0;display:grid;gap:12px;}
+  .facts li{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--cream);border:2px solid var(--ink);border-radius:13px;padding:11px 13px;
+    font-weight:600;font-size:15px;
+  }
+  .facts .ic{font-size:21px;line-height:1;flex:none;}
+
+  /* toolbox */
+  .tool{display:flex;flex-direction:column;gap:12px;}
+  .tool .top{display:flex;align-items:center;gap:13px;}
+  .tool .ic{
+    width:52px;height:52px;flex:none;border:var(--b);border-radius:14px;
+    display:grid;place-items:center;font-size:25px;box-shadow:var(--pop-sm);
+  }
+  .tool h3{font-size:21px;font-weight:800;}
+  .tool .lvl{font-family:'Press Start 2P',monospace;font-size:8px;opacity:.6;display:block;margin-top:5px;}
+  .tool p{margin:0;font-size:15px;font-weight:600;}
+
+  /* games */
+  .game{
+    display:flex;flex-direction:column;gap:14px;text-decoration:none;color:var(--ink);
+    transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .game:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+  .thumb{
+    border:var(--b);border-radius:14px;overflow:hidden;background:var(--green);
+    aspect-ratio:16/10;display:grid;place-items:center;
+  }
+  .thumb svg{width:100%;height:100%;display:block;}
+  .game h3{font-size:24px;font-weight:800;}
+  .game .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .mini{
+    font-family:'Press Start 2P',monospace;font-size:9px;
+    border:2px solid var(--ink);border-radius:999px;padding:5px 9px;background:var(--cream);
+  }
+  .game p{margin:0;font-size:15px;font-weight:600;}
+  .play{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:17px;}
+
+  .more{
+    grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;
+    gap:16px;flex-wrap:wrap;background:var(--purple);color:#fff;
+  }
+  .more h3{font-size:24px;font-weight:800;}
+  .more p{margin:4px 0 0;font-weight:600;}
+
+  /* record */
+  .record{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  .record h2{color:var(--cream);}
+  .record .sec-head .num{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--yellow);}
+  .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:4px;}
+  .rec-box{
+    background:#2A2A45;border:3px solid var(--cream);border-radius:15px;padding:18px;
+  }
+  .rec-box .lbl{
+    font-family:'Press Start 2P',monospace;font-size:9px;color:var(--yellow);
+    display:block;margin-bottom:9px;
+  }
+  .rec-box .big{font-family:'Baloo 2',sans-serif;font-size:30px;font-weight:800;line-height:1.1;}
+  .rec-box .who{font-size:14px;font-weight:600;opacity:.8;margin-top:7px;}
+  .rec-note{
+    margin-top:18px;font-size:15px;font-weight:600;
+    border-left:4px solid var(--yellow);padding-left:14px;
+  }
+  .rec-note a{color:var(--yellow);}
+  #trophy{cursor:pointer;font-size:34px;line-height:1;background:none;border:0;padding:0;}
+
+  /* interests */
+  .int{text-align:center;}
+  .int .ic{
+    width:62px;height:62px;margin:0 auto 14px;border:var(--b);border-radius:16px;
+    display:grid;place-items:center;font-size:30px;box-shadow:var(--pop-sm);
+  }
+  .int h3{font-size:22px;font-weight:800;margin-bottom:7px;}
+  .int p{margin:0;font-size:15px;font-weight:600;}
+
+  /* links */
+  .linkrow{display:grid;gap:14px;}
+  .lk{
+    display:flex;align-items:center;gap:15px;text-decoration:none;color:var(--ink);
+    background:#fff;border:var(--b);border-radius:16px;padding:15px 18px;box-shadow:var(--pop-sm);
+    transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .lk:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .lk .ic{
+    width:46px;height:46px;flex:none;border:2px solid var(--ink);border-radius:12px;
+    display:grid;place-items:center;font-size:22px;
+  }
+  .lk b{font-family:'Baloo 2',sans-serif;font-size:19px;display:block;}
+  .lk span.d{font-size:14px;font-weight:600;opacity:.75;word-break:break-all;}
+  .lk .go{margin-left:auto;font-size:22px;font-weight:800;flex:none;}
+
+  footer{
+    margin-top:64px;text-align:center;border-top:var(--b);padding-top:26px;
+    font-weight:700;font-size:15px;
+  }
+  footer .pixel{font-size:11px;display:block;margin-top:9px;opacity:.6;}
+
+  .confetti{
+    position:fixed;width:11px;height:11px;z-index:999;pointer-events:none;border-radius:2px;
+  }
+
+  @media (max-width:760px){
+    body{font-size:16px;}
+    .hero-grid{grid-template-columns:1fr;gap:24px;}
+    .avatar-box{order:-1;}
+    #avatar{max-width:205px;}
+    .grid2,.grid3,.rec-grid{grid-template-columns:1fr;}
+    .wrap{padding:0 16px 54px;}
+    nav a.link{font-size:14px;padding:4px 8px;}
+    .card{padding:19px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo"><span class="dot">N</span> Nirthic</div>
+    <a class="link" href="#about">About</a>
+    <a class="link" href="#tools">Tools</a>
+    <a class="link" href="#games">Games</a>
+    <a class="link" href="#record">Record</a>
+    <a class="link" href="#more">Me</a>
+    <a class="link" href="#find">Links</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="tag">GRADE 3 &nbsp;•&nbsp; GAME DEV</span>
+        <h1>Hi, I'm <span class="u">Nirthic</span> Madhan!</h1>
+        <p class="sub">I make video games. I started out in Scratch, I build gadgets with micro:bit, and we build robots at home too. Everything I finish goes online so you can play it.</p>
+        <div class="btns">
+          <a class="btn" href="https://the-random-guy67.itch.io/" target="_blank" rel="noopener">🕹️ Play my games</a>
+          <a class="btn pop" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">🔨 Whack a Mole <span class="hot">MOST POPULAR</span></a>
+          <a class="btn alt" href="https://www.youtube.com/@therandomguy-123" target="_blank" rel="noopener">▶ Watch my videos</a>
+        </div>
+      </div>
+
+      <div class="avatar-box">
+        <div id="avatar" tabindex="0" role="button" aria-label="Photo of Nirthic. Press for a fun fact.">
+          <img src="nirthic.jpg" width="720" height="720" alt="Nirthic Madhan, Grade 3 game developer, in a red hoodie and sunglasses">
+          <span class="sticker">GAME DEV</span>
+        </div>
+        <div class="bubble" id="bubble">
+          Tap me for a fun fact!
+          <small>👆 click the picture</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="chips">
+    <span class="chip r">🎮 Scratch games</span>
+    <span class="chip y">🔌 micro:bit</span>
+    <span class="chip g">🤖 Robotics</span>
+    <span class="chip b">📺 YouTuber</span>
+    <span class="chip p">♟️ Chess</span>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="sec-head"><span class="num">01</span><h2>My coding story</h2></div>
+    <div class="grid2">
+      <div class="card story">
+        <p>Two years ago my <strong>big sister</strong> showed me a website called Scratch. I snapped a few blocks together, a cat walked across the screen, and I thought it was the coolest thing I had ever made. I have been building games ever since.</p>
+        <p>I draw my own sprites, put the code together, pick the sounds, and then I test the game about a hundred times until it actually feels fun. Usually my sister plays it first and tells me what is broken.</p>
+        <p>Now I put my games online so <strong>anyone in the world</strong> can play them. I also film tutorials, because back when I was starting out I really wanted somebody to just show me which blocks to use.</p>
+      </div>
+      <div class="card">
+        <ul class="facts">
+          <li><span class="ic">🧩</span><span>Started with <b>Scratch</b>, and it is still my favourite</span></li>
+          <li><span class="ic">👧</span><span>My <b>big sister</b> got me started 2 years ago</span></li>
+          <li><span class="ic">🎒</span><span>Right now I am in <b>Grade 3</b></span></li>
+          <li><span class="ic">🎯</span><span>Big dream: become a <b>world record holder</b></span></li>
+          <li><span class="ic">💡</span><span>Best part of coding: when a bug finally gets fixed</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TOOLBOX ===== -->
+  <section id="tools">
+    <div class="sec-head"><span class="num" style="background:var(--yellow);color:var(--ink)">02</span><h2>My toolbox</h2></div>
+    <div class="grid2">
+
+      <div class="card tool">
+        <div class="top">
+          <span class="ic" style="background:#FFE3E4">🧩</span>
+          <div>
+            <h3>Scratch</h3>
+            <span class="lvl">MY FAVOURITE</span>
+          </div>
+        </div>
+        <p>You drag blocks, snap them together, and your idea is suddenly alive on the screen. This is where all my published games were born.</p>
+      </div>
+
+      <div class="card tool">
+        <div class="top">
+          <span class="ic" style="background:#FFF0C4">🔌</span>
+          <div>
+            <h3>micro:bit and MakeCode</h3>
+            <span class="lvl">REAL HARDWARE</span>
+          </div>
+        </div>
+        <p>We do this one at home. I write the code in MakeCode, send it over to the little board, and then the lights and buzzers actually do what I told them to do.</p>
+      </div>
+
+      <div class="card tool">
+        <div class="top">
+          <span class="ic" style="background:#DDF6E4">🤖</span>
+          <div>
+            <h3>Robotics</h3>
+            <span class="lvl">WE BUILD THESE</span>
+          </div>
+        </div>
+        <p>We do robotics together at home. I love that a game stays on the screen, but a robot actually rolls across the floor and bumps into the sofa. It is coding you can hold in your hands.</p>
+      </div>
+
+      <div class="card tool">
+        <div class="top">
+          <span class="ic" style="background:#EBE2FF">🤝</span>
+          <div>
+            <h3>Teaming up with Claude</h3>
+            <span class="lvl">MY CODING BUDDY</span>
+          </div>
+        </div>
+        <p>When I build something bigger I explain my idea to Claude and we figure out the code together. I keep those projects on GitHub so I can come back and improve them later.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GAMES ===== -->
+  <section id="games">
+    <div class="sec-head"><span class="num" style="background:var(--blue)">03</span><h2>Games I have made</h2></div>
+    <div class="grid2">
+
+      <a class="card game" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">
+        <div class="thumb" style="background:#DDF6E4">
+          <svg viewBox="0 0 160 100" aria-hidden="true">
+            <rect width="160" height="100" fill="#4ECB71"/>
+            <g stroke="#1B1B2F" stroke-width="3">
+              <ellipse cx="40" cy="74" rx="21" ry="8" fill="#6B4B2A"/>
+              <ellipse cx="120" cy="74" rx="21" ry="8" fill="#6B4B2A"/>
+              <ellipse cx="80" cy="44" rx="21" ry="8" fill="#6B4B2A"/>
+              <circle cx="80" cy="33" r="15" fill="#A9754A"/>
+              <circle cx="74" cy="31" r="2.6" fill="#1B1B2F" stroke="none"/>
+              <circle cx="86" cy="31" r="2.6" fill="#1B1B2F" stroke="none"/>
+              <ellipse cx="80" cy="38" rx="5" ry="3.5" fill="#FF9FB0"/>
+            </g>
+            <g fill="#FFC93C" stroke="#1B1B2F" stroke-width="3">
+              <rect x="104" y="12" width="34" height="11" rx="5"/>
+              <rect x="128" y="20" width="10" height="20" rx="4"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <h3>Whack a Mole</h3>
+          <div class="meta">
+            <span class="mini">MY MOST POPULAR</span>
+            <span class="mini">PLAY IN BROWSER</span>
+            <span class="mini">SCRATCH</span>
+          </div>
+          <p style="margin-top:12px">Moles keep popping out of their holes and you have to bonk them before the timer runs out. It looks easy. It is not.</p>
+          <p class="play" style="margin-top:12px">▶ Play it free &rarr;</p>
+        </div>
+      </a>
+
+      <a class="card game" href="https://the-random-guy67.itch.io/" target="_blank" rel="noopener">
+        <div class="thumb" style="background:#DCEEFC">
+          <svg viewBox="0 0 160 100" aria-hidden="true">
+            <rect width="160" height="100" fill="#3D9BE9"/>
+            <g stroke="#1B1B2F" stroke-width="3" fill="#FFF8EC">
+              <rect x="22" y="24" width="38" height="30" rx="6"/>
+              <rect x="66" y="24" width="38" height="30" rx="6" fill="#FFC93C"/>
+              <rect x="110" y="24" width="30" height="30" rx="6"/>
+              <rect x="22" y="62" width="38" height="24" rx="6" fill="#FF5A5F"/>
+              <rect x="66" y="62" width="38" height="24" rx="6"/>
+              <rect x="110" y="62" width="30" height="24" rx="6" fill="#9B6BFF"/>
+            </g>
+            <text x="80" y="17" font-family="monospace" font-size="11" font-weight="bold" fill="#FFF8EC" text-anchor="middle">MY GAME SHELF</text>
+          </svg>
+        </div>
+        <div>
+          <h3>All my other games</h3>
+          <div class="meta">
+            <span class="mini">ITCH.IO PAGE</span>
+            <span class="mini">FREE TO PLAY</span>
+          </div>
+          <p style="margin-top:12px">Every game I have published sits on my itch.io page. A new one shows up whenever I finish building it.</p>
+          <p class="play" style="margin-top:12px">🎮 Browse them all &rarr;</p>
+        </div>
+      </a>
+
+      <a class="card game" href="https://github.com/nirthicm?tab=repositories" target="_blank" rel="noopener">
+        <div class="thumb" style="background:#EBE2FF">
+          <svg viewBox="0 0 160 100" aria-hidden="true">
+            <rect width="160" height="100" fill="#9B6BFF"/>
+            <g fill="#1B1B2F" font-family="monospace" font-size="10" font-weight="bold">
+              <rect x="20" y="18" width="120" height="64" rx="8" fill="#FFF8EC" stroke="#1B1B2F" stroke-width="3"/>
+              <rect x="20" y="18" width="120" height="14" rx="8" fill="#1B1B2F"/>
+              <circle cx="31" cy="25" r="3" fill="#FF5A5F"/>
+              <circle cx="41" cy="25" r="3" fill="#FFC93C"/>
+              <circle cx="51" cy="25" r="3" fill="#4ECB71"/>
+              <text x="30" y="49">function start()</text>
+              <text x="38" y="63" fill="#3D9BE9">makeGame();</text>
+              <text x="30" y="75">}</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <h3>My code on GitHub</h3>
+          <div class="meta">
+            <span class="mini">MY PROJECTS</span>
+            <span class="mini">BUILT WITH CLAUDE</span>
+            <span class="mini">WORK IN PROGRESS</span>
+          </div>
+          <p style="margin-top:12px">The bigger projects I am building with Claude live here. Some are finished, some are half built, and all of them are teaching me something.</p>
+          <p class="play" style="margin-top:12px">💻 See the repositories &rarr;</p>
+        </div>
+      </a>
+
+      <div class="card more">
+        <div>
+          <h3>Want to make games too?</h3>
+          <p>I film tutorials on YouTube that show you exactly which blocks to use. Pick a simple idea first, then build up from there.</p>
+        </div>
+        <a class="btn ghost" href="https://www.youtube.com/@therandomguy-123" target="_blank" rel="noopener">▶ Learn with me</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== RECORD ===== -->
+  <section id="record">
+    <div class="card record">
+      <div class="sec-head">
+        <span class="num">04</span>
+        <h2>My big mission <button id="trophy" title="Press me!" aria-label="Celebrate">🏆</button></h2>
+      </div>
+      <p style="font-weight:600;max-width:60ch;margin:0 0 20px">I am training to become the <b>Youngest Videogame Developer (Male)</b> in the Guinness World Records. To get it you have to build a whole game by yourself while judges watch you do it. Nobody is allowed to help.</p>
+
+      <div class="rec-grid">
+        <div class="rec-box">
+          <span class="lbl">THE CHALLENGE</span>
+          <div class="big">A whole game, solo</div>
+          <div class="who">Judges watch the entire build to make sure every single part of the game came from me. No helping, no shortcuts.</div>
+        </div>
+        <div class="rec-box" style="border-color:var(--yellow)">
+          <span class="lbl" style="color:var(--green)">MY PLAN</span>
+          <div class="big">Keep building!</div>
+          <div class="who">More games, bigger challenges, faster coding. Then a record attempt of my own.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTERESTS ===== -->
+  <section id="more">
+    <div class="sec-head"><span class="num" style="background:var(--green)">05</span><h2>Other stuff I love</h2></div>
+    <div class="grid2">
+      <div class="card int">
+        <div class="ic" style="background:var(--blue)">♟️</div>
+        <h3>Chess</h3>
+        <p>Chess is all about thinking three moves ahead, which turns out to be the same skill you need when you plan out a game.</p>
+      </div>
+      <div class="card int">
+        <div class="ic" style="background:var(--red)">📺</div>
+        <h3>YouTube</h3>
+        <p>I show off my games and make tutorials so other kids can build their own projects right from the beginning.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LINKS ===== -->
+  <section id="find">
+    <div class="sec-head"><span class="num" style="background:var(--purple)">06</span><h2>Find me online</h2></div>
+    <div class="linkrow">
+      <a class="lk" href="https://the-random-guy67.itch.io/" target="_blank" rel="noopener">
+        <span class="ic" style="background:#FFE3E4">🎮</span>
+        <span><b>My games on itch.io</b><span class="d">the-random-guy67.itch.io</span></span>
+        <span class="go">&rarr;</span>
+      </a>
+      <a class="lk" href="https://www.youtube.com/@therandomguy-123" target="_blank" rel="noopener">
+        <span class="ic" style="background:#DCEEFC">▶</span>
+        <span><b>My YouTube channel</b><span class="d">youtube.com/@therandomguy-123</span></span>
+        <span class="go">&rarr;</span>
+      </a>
+      <a class="lk" href="https://github.com/nirthicm?tab=repositories" target="_blank" rel="noopener">
+        <span class="ic" style="background:#EBE2FF">💻</span>
+        <span><b>My code on GitHub</b><span class="d">github.com/nirthicm</span></span>
+        <span class="go">&rarr;</span>
+      </a>
+      <a class="lk" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">
+        <span class="ic" style="background:#DDF6E4">🔨</span>
+        <span><b>Play Whack a Mole</b><span class="d">My most popular game, free in your browser</span></span>
+        <span class="go">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    Made with code blocks, big ideas, and a whole lot of testing. 🎮
+    <span class="pixel">NIRTHIC MADHAN &nbsp;•&nbsp; GRADE 3 &nbsp;•&nbsp; GAME DEVELOPER</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var facts = [
+    ["My first ever Scratch project was a cat walking across the screen.", "and that was it, I was hooked"],
+    ["Whack a Mole is my most popular game so far.", "go on, try to beat it"],
+    ["I am in Grade 3 and I have been coding for 2 years.", "that is a quarter of my life"],
+    ["My big sister taught me Scratch.", "best sister ever"],
+    ["I want to be the youngest male videogame developer.", "that is the plan anyway"],
+    ["I code the micro:bit in MakeCode and the lights really light up.", "real hardware is the best"],
+    ["I keep my bigger projects on GitHub.", "so I can improve them later"],
+    ["I play chess to practise thinking ahead.", "same skill as planning a game"],
+    ["I make tutorials so you can build games too.", "come and learn with me"]
+  ];
+  var i = -1;
+  var av = document.getElementById('avatar');
+  var bub = document.getElementById('bubble');
+
+  function nextFact(){
+    i = (i + 1) % facts.length;
+    bub.innerHTML = facts[i][0] + '<small>' + facts[i][1] + '</small>';
+    av.classList.remove('bounce');
+    void av.offsetWidth;
+    av.classList.add('bounce');
+  }
+  av.addEventListener('click', nextFact);
+  av.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); nextFact(); }
+  });
+  av.setAttribute('tabindex','0');
+
+  var colors = ['#FF5A5F','#FFC93C','#3D9BE9','#4ECB71','#9B6BFF','#FFF8EC'];
+  document.getElementById('trophy').addEventListener('click', function(){
+    for(var n = 0; n < 60; n++) pop();
+  });
+  function pop(){
+    var d = document.createElement('div');
+    d.className = 'confetti';
+    d.style.background = colors[Math.floor(Math.random()*colors.length)];
+    d.style.left = (10 + Math.random()*80) + 'vw';
+    d.style.top = '-20px';
+    d.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+    document.body.appendChild(d);
+    var fall = 70 + Math.random()*40;
+    var dur = 1600 + Math.random()*1400;
+    if(d.animate){
+      d.animate([
+        {transform:'translateY(0) rotate(0deg)', opacity:1},
+        {transform:'translateY(' + fall + 'vh) rotate(' + (360+Math.random()*540) + 'deg)', opacity:0}
+      ], {duration:dur, easing:'cubic-bezier(.3,.7,.6,1)'});
+    }
+    setTimeout(function(){ d.remove(); }, dur);
+  }
+})();
+</script>
+</body>
+</html>
