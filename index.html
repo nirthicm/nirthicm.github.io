@@ -187,6 +187,8 @@
     transition:transform .1s ease, box-shadow .1s ease;
   }
   .game:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+  .game.nolink{cursor:default;}
+  .game.nolink:hover{transform:none;box-shadow:var(--pop);}
   .thumb{
     border:var(--b);border-radius:14px;overflow:hidden;background:var(--green);
     aspect-ratio:16/10;display:grid;place-items:center;
@@ -404,6 +406,44 @@
     <div class="sec-head"><span class="num" style="background:var(--blue)">03</span><h2>Games I have made</h2></div>
     <div class="grid2">
 
+      <div class="card game nolink">
+        <div class="thumb" style="background:#BFE4F7">
+          <svg viewBox="0 0 160 100" aria-hidden="true">
+            <rect width="160" height="100" fill="#BFE4F7"/>
+            <g fill="#fff" stroke="#1B1B2F" stroke-width="2.5">
+              <path d="M18 88q-6 0-6-6t7-6q2-8 10-8t10 8q6 0 6 6t-7 6z"/>
+              <path d="M124 74q-6 0-6-6t7-6q2-8 10-8t10 8q6 0 6 6t-7 6z"/>
+            </g>
+            <g fill="#FFC93C" stroke="#1B1B2F" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M50 28 40 54h7l-7 22 20-26h-8l7-22z"/>
+              <path d="M128 10 118 36h7l-7 22 20-26h-8l7-22z"/>
+            </g>
+            <g stroke="#1B1B2F" stroke-width="3">
+              <ellipse cx="82" cy="56" rx="17" ry="20" fill="#3D9BE9"/>
+              <path d="M78 76h8l-4 5z" fill="#2B7FC4" stroke-linejoin="round"/>
+            </g>
+            <path d="M82 82q5 4 0 8t0 8" fill="none" stroke="#1B1B2F" stroke-width="2.5" stroke-linecap="round"/>
+            <ellipse cx="75" cy="48" rx="4" ry="6" fill="#fff" opacity=".45"/>
+            <g>
+              <rect x="8" y="6" width="70" height="14" rx="7" fill="#FFF8EC" stroke="#1B1B2F" stroke-width="2.5"/>
+              <rect x="52" y="6" width="26" height="14" rx="7" fill="#E8812B" stroke="#1B1B2F" stroke-width="2.5"/>
+              <text x="14" y="16.5" font-family="monospace" font-size="9" font-weight="bold" fill="#1B1B2F">score</text>
+              <text x="59" y="16.5" font-family="monospace" font-size="9" font-weight="bold" fill="#fff">26</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <h3>Sky High</h3>
+          <div class="meta">
+            <span class="mini">WORLD RECORD ATTEMPT</span>
+            <span class="mini">SCRATCH</span>
+            <span class="mini">BUILT AT UBC</span>
+          </div>
+          <p style="margin-top:12px">This is the one I built for my record attempt. Float your balloon up through the sky and dodge the lightning bolts. The longer you survive the higher your score goes, and one hit pops you.</p>
+          <p style="margin-top:12px;opacity:.7">Not online yet. The proof has to go to Guinness first.</p>
+        </div>
+      </div>
+
       <a class="card game" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">
         <div class="thumb" style="background:#DDF6E4">
           <svg viewBox="0 0 160 100" aria-hidden="true">
@@ -512,9 +552,9 @@
 
       <div class="rec-grid">
         <div class="rec-box">
-          <span class="lbl">WHERE IT HAPPENED</span>
-          <div class="big">UBC, Vancouver</div>
-          <div class="who">Hosted by the UBC Game Dev club. Sitting in a real university building to do it made the whole thing feel very serious.</div>
+          <span class="lbl">THE GAME I MADE</span>
+          <div class="big">Sky High</div>
+          <div class="who">You float a balloon up through the sky and dodge the lightning bolts. The longer you last, the higher your score climbs.</div>
         </div>
         <div class="rec-box" style="border-color:var(--yellow)">
           <span class="lbl" style="color:var(--green)">WHAT HAPPENS NEXT</span>
