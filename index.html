@@ -195,8 +195,6 @@
     transition:transform .1s ease, box-shadow .1s ease;
   }
   .game:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
-  .game.nolink{cursor:default;}
-  .game.nolink:hover{transform:none;box-shadow:var(--pop);}
   .thumb{
     border:var(--b);border-radius:14px;overflow:hidden;background:var(--green);
     aspect-ratio:16/10;display:grid;place-items:center;
@@ -412,7 +410,7 @@
     <div class="sec-head"><span class="num" style="background:var(--blue)">03</span><h2>Games I have made</h2></div>
     <div class="grid2">
 
-      <div class="card game nolink">
+      <a class="card game" href="https://the-random-guy67.itch.io/sky-high" target="_blank" rel="noopener">
         <div class="thumb" style="background:#BFE4F7">
           <svg viewBox="0 0 160 100" aria-hidden="true">
             <rect width="160" height="100" fill="#BFE4F7"/>
@@ -442,13 +440,14 @@
           <h3>Sky High</h3>
           <div class="meta">
             <span class="mini">WORLD RECORD ATTEMPT</span>
-            <span class="mini">SCRATCH</span>
+            <span class="mini">PLAY IN BROWSER</span>
             <span class="mini">BUILT AT UBC</span>
           </div>
           <p style="margin-top:12px">This is the one I built for my record attempt. Float your balloon up through the sky and dodge the lightning bolts. The longer you survive the higher your score goes, and one hit pops you.</p>
-          <p style="margin-top:12px;opacity:.7">Not online yet. The proof has to go to Guinness first.</p>
+          <p style="margin-top:12px;opacity:.75">Putting it online was part of the attempt, so this is the real thing.</p>
+          <p class="play" style="margin-top:12px">▶ Play it free &rarr;</p>
         </div>
-      </div>
+      </a>
 
       <a class="card game" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">
         <div class="thumb" style="background:#DDF6E4">
@@ -607,6 +606,11 @@
       <a class="lk" href="https://github.com/nirthicm?tab=repositories" target="_blank" rel="noopener">
         <span class="ic" style="background:#EBE2FF">💻</span>
         <span><b>My code on GitHub</b><span class="d">github.com/nirthicm</span></span>
+        <span class="go">&rarr;</span>
+      </a>
+      <a class="lk" href="https://the-random-guy67.itch.io/sky-high" target="_blank" rel="noopener">
+        <span class="ic" style="background:#E6F2FC">🎈</span>
+        <span><b>Play Sky High</b><span class="d">The game from my world record attempt</span></span>
         <span class="go">&rarr;</span>
       </a>
       <a class="lk" href="https://the-random-guy67.itch.io/whack-a-mole" target="_blank" rel="noopener">
